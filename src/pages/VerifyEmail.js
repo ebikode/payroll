@@ -74,7 +74,7 @@ class VerifyEmailPage extends React.Component {
       return;
     }
 
-    let url = `customer/verify/email/${id}/${token}`;
+    let url = `employee/verify/email/${id}/${token}`;
 
     getRequest(url, false)
       .then(res => {

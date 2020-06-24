@@ -336,7 +336,7 @@ class PXAccountForm extends React.Component {
       type: this.state.type.toLowerCase()
     };
 
-    postRequest("customer/accounts", payload, true)
+    postRequest("employee/accounts", payload, true)
       .then(async res => {
         console.log("Account Created successfully!", { res });
 

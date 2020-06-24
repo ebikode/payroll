@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  getAdminRole,
-  getAdminState
+  getAdminStatus,
+  getAdminState,
+  getEmployeeState
 } from "../modules/selectors/auth.selectors";
 import { logout } from "../modules/actions/auth.actions";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -23,8 +24,8 @@ class PXHeader extends React.Component {
   }
 
   render() {
-    let admin = `${this.props.admin.first_name}`;
-
+    let admin = this.props.admin ? this.props.admin.first_name : "";
+    let employee = this.props.isAdmin ? admin : this.props.employee.first_name;
     return (
       <>
         <div id="header" className={styles.appHeader}>
@@ -40,7 +41,7 @@ class PXHeader extends React.Component {
                 height="50"
                 src="/images/logo.png"
                 className="d-inline-block align-top"
-                alt="PEX+ logo"
+                alt="Kimberly Ryan logo"
               />
             </Navbar.Brand>
             <Navbar.Toggle
@@ -61,7 +62,7 @@ class PXHeader extends React.Component {
                     id="dropdown-basic"
                     className={styles.dropdownToggle}
                   >
-                    {admin}
+                    {employee}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item href="#" onClick={this.logout}>
@@ -87,17 +88,19 @@ class PXHeader extends React.Component {
 }
 
 PXHeader.propTypes = {
-  customer: PropTypes.object,
+  employee: PropTypes.object,
   admin: PropTypes.object,
+  isAdmin: PropTypes.bool,
   logout: PropTypes.func
 };
 
 // Map the need state properties to the component property
 const mapStateToProps = state => {
-  const role = getAdminRole(state);
   const admin = getAdminState(state);
-  // console.log(customer)
-  return { role, admin };
+  const isAdmin = getAdminStatus(state);
+  const employee = getEmployeeState(state);
+  // console.log(employee)
+  return { isAdmin, admin, employee };
 };
 
 export default connect(mapStateToProps, { logout })(PXHeader);

@@ -37,6 +37,21 @@ export const formatCurrency = value => {
   }
 };
 
+export const months = {
+  "1": "January",
+  "2": "February",
+  "3": "March",
+  "4": "April",
+  "5": "May",
+  "6": "June",
+  "7": "July",
+  "8": "August",
+  "9": "September",
+  "10": "October",
+  "11": "November",
+  "12": "December"
+};
+
 /**
  * Minimize Figures
  * @param value object - the data object to be processed
@@ -102,7 +117,9 @@ export const minimizeFigures = (value, startFromSuffix, isMoney = false) => {
  */
 export const saveDashboardData = data => {
   reactLocalStorage.setObject(welcome_message, data.message);
-  reactLocalStorage.setObject(dashboard_data, data.dashboard_data);
+  if (data.dashboard_data) {
+    reactLocalStorage.setObject(dashboard_data, data.dashboard_data);
+  }
   if (data.recent_payrolls) {
     reactLocalStorage.setObject(recent_payrolls, data.recent_payrolls);
   }
@@ -153,6 +170,7 @@ export const processAuthData = async () => {
   return {
     role: roleData,
     welcomeMessage: welcomeMessage,
+    isAdmin: isAdmin,
     admin: adminData,
     employee: employeeData,
     dashboardData: dashboardData,
@@ -216,6 +234,26 @@ export const processData = data => {
   const dataState = {
     iDs: iDs,
     byIDs: byIDs
+  };
+
+  return dataState;
+};
+
+/**
+ * Process By Months Data and return the object structure of the store
+ * @param data Array -
+ * @returns object { months: [], byMonths: {} }
+ */
+export const processByMonthData = data => {
+  let byMonths = {};
+  let months = data.map(item => {
+    byMonths[item.month] = item;
+    return item.month;
+  });
+
+  const dataState = {
+    months: months,
+    byMonths: byMonths
   };
 
   return dataState;

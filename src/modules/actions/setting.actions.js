@@ -7,11 +7,7 @@ import { getRequest, putRequest } from "../utils/service";
 import { processSettingsData, processErrorMessage } from "../utils/helpers";
 
 // Process Setting Update action
-export const getSettingsAction = async (
-  dispatch,
-  page = 1,
-  isAdmin = false
-) => {
+export const getSettingsAction = async dispatch => {
   dispatch({
     type: UPDATE_SETTINGS_STATUS,
     payload: {
@@ -21,9 +17,7 @@ export const getSettingsAction = async (
     }
   });
 
-  let url = `customer/app_settings`;
-
-  if (isAdmin) url = `admin/app_settings`;
+  let url = `admin/app_settings`;
 
   getRequest(url, true)
     .then(res => {

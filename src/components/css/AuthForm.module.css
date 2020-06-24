@@ -10,6 +10,20 @@
     min-width: 70%;
 }
 
+.regFormBody {
+    background-color: var(--fg-color);
+    padding: 20px 50px;
+    /* margin: 20px; */
+    margin-top: 0px;
+    margin-top: 0px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 50%;
+    border-radius: 20px;
+}
+
+
 .formBody .imgBox{
     display: flex;
     flex-direction: column;

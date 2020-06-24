@@ -1,9 +1,10 @@
 import {
-  UPDATE_TOKENS,
-  ADD_TOKEN,
-  UPDATE_TOKENS_STATUS
-} from "../action-types/token.actionTypes";
-import { getTokens } from "../selectors/token.selectors";
+  UPDATE_SALARIES,
+  ADD_SALARY,
+  UPDATE_SALARY,
+  UPDATE_SALARIES_STATUS
+} from "../action-types/salary.actionTypes";
+import { getSalaries } from "../selectors/salary.selectors";
 import { processData } from "../utils/helpers";
 
 const initialState = {
@@ -12,16 +13,16 @@ const initialState = {
   message: "",
   nextPage: 0,
   currentPage: 1,
-  tokens: {
+  salaries: {
     iDs: [],
-    byIDs: {} // holds tokens with their id as key
+    byIDs: {} // holds salaries with their id as key
   }
 };
 
 export default function(state = initialState, action) {
   console.log("action.payload", action.payload);
   switch (action.type) {
-    case UPDATE_TOKENS_STATUS: {
+    case UPDATE_SALARIES_STATUS: {
       const { isSuccess, isLoading, message } = action.payload;
       return {
         ...state,
@@ -30,7 +31,7 @@ export default function(state = initialState, action) {
         message: message
       };
     }
-    case UPDATE_TOKENS: {
+    case UPDATE_SALARIES: {
       const {
         isSuccess,
         isLoading,
@@ -46,24 +47,39 @@ export default function(state = initialState, action) {
         message: message,
         nextPage: nextPage,
         currentPage: currentPage,
-        tokens: data
+        salaries: data
       };
     }
-    case ADD_TOKEN: {
-      const { isSuccess, isLoading, message, token } = action.payload;
+    case ADD_SALARY: {
+      const { isSuccess, isLoading, message, salary } = action.payload;
 
-      const tokens = getTokens(state);
+      const salaries = getSalaries(state);
 
-      tokens.unshift(token);
+      salaries.unshift(salary);
 
-      let data = processData(tokens);
+      let data = processData(salaries);
 
       return {
         ...state,
         isSuccess: isSuccess,
         isLoading: isLoading,
         message: message,
-        tokens: data
+        salaries: data
+      };
+    }
+    case UPDATE_SALARY: {
+      const { isSuccess, isLoading, message, salary } = action.payload;
+
+      let salaries = state.salaries;
+
+      salaries.byIDs[salary.id] = salary;
+
+      return {
+        ...state,
+        isSuccess: isSuccess,
+        isLoading: isLoading,
+        message: message,
+        salaries: salaries
       };
     }
     default:

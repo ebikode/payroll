@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { formatCurrency } from "../modules/utils/helpers";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import styles from "./css/AccountCard.module.css";
 
-class PXAccountCard extends React.Component {
+class PRAccountCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,35 +18,38 @@ class PXAccountCard extends React.Component {
   }
 
   render() {
-    let account = this.props.account;
+    let employee = this.props.employee;
 
     return (
       <>
-        {account ? (
+        {employee ? (
           <div className={styles.body}>
             <div className={styles.cardHeader}>
-              <p>ACCOUNT INFO CARD:</p>
+              <p>EMPLOYEE INFO:</p>
               <div className={styles.whitePath}></div>
             </div>
-            <Row className={styles.row}>
-              <div className={styles.fieldTitle}>
-                API KEY: {account.account_key}
-              </div>
-            </Row>
             <Row className={styles.row}>
               <Col md={4}>
                 <div className={styles.fieldTitle}>NAME :</div>
               </Col>
               <Col>
-                <div className={styles.fieldValue}>{account.name}</div>
+                <div className={styles.fieldValue}>
+                  {employee.first_name} {employee.last_name}
+                </div>
               </Col>
+            </Row>
+            <Row className={styles.row}>
+              <Col md={4}>
+                <div className={styles.fieldTitle}>ROLE :</div>
+              </Col>
+              <div className={styles.fieldValue}>{employee.position}</div>
             </Row>
             <Row className={styles.row}>
               <Col md={4}>
                 <div className={styles.fieldTitle}>EMAIL :</div>
               </Col>
               <Col>
-                <div className={styles.fieldValue}>{account.email}</div>
+                <div className={styles.fieldValue}>{employee.email}</div>
               </Col>
             </Row>
             <Row className={styles.row}>
@@ -53,86 +57,115 @@ class PXAccountCard extends React.Component {
                 <div className={styles.fieldTitle}>PHONE No. :</div>
               </Col>
               <Col>
-                <div className={styles.fieldValue}>{account.phone}</div>
+                <div className={styles.fieldValue}>{employee.phone}</div>
               </Col>
             </Row>
             <Row className={styles.row}>
               <Col md={4}>
-                <div className={styles.fieldTitle}>TYPE :</div>
+                <div className={styles.fieldTitle}>ADDRESS :</div>
               </Col>
               <Col>
-                <div className={styles.fieldValue}>
-                  {account.type.toUpperCase()}
-                </div>
+                <div className={styles.fieldValue}>{employee.address}</div>
               </Col>
             </Row>
-            {account.search_plan ? (
-              <Row className={styles.row}>
-                <Col md={4}>
-                  <div className={styles.fieldTitle}>SEARCH PLAN :</div>
-                </Col>
-                <Col>
-                  <div className={styles.fieldValue}>
-                    {account.search_plan.name}
-                  </div>
-                </Col>
-              </Row>
+            <Row className={styles.row}>
+              <Col md={4}>
+                <div className={styles.fieldTitle}>ABOUT :</div>
+              </Col>
+              <Col>
+                <div className={styles.fieldValue}>{employee.about}</div>
+              </Col>
+            </Row>
+            {employee.salary ? (
+              <>
+                <Row className={styles.row}>
+                  <Col md={4}>
+                    <div className={styles.fieldTitle}>SALARY:</div>
+                  </Col>
+                  <Col>
+                    <div className={styles.fieldValue}>
+                      {formatCurrency(employee.salary.salary)}
+                    </div>
+                  </Col>
+                </Row>
+                <Row className={styles.row}>
+                  <Col md={4}>
+                    <div className={styles.fieldTitle}>PENSION (%):</div>
+                  </Col>
+                  <Col>
+                    <div className={styles.fieldValue}>
+                      {employee.salary.pension}
+                    </div>
+                  </Col>
+                </Row>
+                <Row className={styles.row}>
+                  <Col md={4}>
+                    <div className={styles.fieldTitle}>PAYE (%):</div>
+                  </Col>
+                  <Col>
+                    <div className={styles.fieldValue}>
+                      {employee.salary.paye}
+                    </div>
+                  </Col>
+                </Row>
+                <Row className={styles.row}>
+                  <Col md={4}>
+                    <div className={styles.fieldTitle}>NSITF (%):</div>
+                  </Col>
+                  <Col>
+                    <div className={styles.fieldValue}>
+                      {employee.salary.nsitf}
+                    </div>
+                  </Col>
+                </Row>
+                <Row className={styles.row}>
+                  <Col md={4}>
+                    <div className={styles.fieldTitle}>NHF (%):</div>
+                  </Col>
+                  <Col>
+                    <div className={styles.fieldValue}>
+                      {employee.salary.nhf}
+                    </div>
+                  </Col>
+                </Row>
+                <Row className={styles.row}>
+                  <Col md={4}>
+                    <div className={styles.fieldTitle}>ITF (%):</div>
+                  </Col>
+                  <Col>
+                    <div className={styles.fieldValue}>
+                      {employee.salary.itf}
+                    </div>
+                  </Col>
+                </Row>
+              </>
             ) : (
               <></>
             )}
 
             <Row className={styles.row}>
               <Col md={4}>
-                <div className={styles.fieldTitle}>POINT BALANCE :</div>
+                <div className={styles.fieldTitle}>BANK:</div>
               </Col>
               <Col>
-                <div className={styles.fieldValue}>{account.point_balance}</div>
+                <div className={styles.fieldValue}>{employee.bank_name}</div>
               </Col>
             </Row>
             <Row className={styles.row}>
               <Col md={4}>
-                <div className={styles.fieldTitle}>POINT USED :</div>
+                <div className={styles.fieldTitle}>BANK ACCOUNT NAME:</div>
               </Col>
               <Col>
-                <div className={styles.fieldValue}>{account.point_used}</div>
+                <div className={styles.fieldValue}>{employee.account_name}</div>
               </Col>
             </Row>
             <Row className={styles.row}>
               <Col md={4}>
-                <div className={styles.fieldTitle}>TOTAL SEARCH :</div>
-              </Col>
-              <Col>
-                <div className={styles.fieldValue}>{account.total_search}</div>
-              </Col>
-            </Row>
-            <Row className={styles.row}>
-              <Col md={4}>
-                <div className={styles.fieldTitle}>START UP :</div>
+                <div className={styles.fieldTitle}>BANK ACCOUNT NO:</div>
               </Col>
               <Col>
                 <div className={styles.fieldValue}>
-                  {account.is_startup.toString().toUpperCase()}
-                </div>
-              </Col>
-            </Row>
-            <Row className={styles.row}>
-              <Col md={4}>
-                <div className={styles.fieldTitle}>APPROVED :</div>
-              </Col>
-              <Col>
-                <div className={styles.fieldValue}>
-                  {account.is_approved.toString().toUpperCase()}
-                </div>
-              </Col>
-            </Row>
-            <Row className={styles.row}>
-              <Col md={4}>
-                <div className={styles.fieldTitle}>EXPIRES :</div>
-              </Col>
-              <Col>
-                <div className={styles.fieldValue}>
-                  {new Date(account.expiration_date).toLocaleString()}
-                  {}
+                  {employee.account_number}
                 </div>
               </Col>
             </Row>
@@ -142,21 +175,23 @@ class PXAccountCard extends React.Component {
               </Col>
               <Col>
                 <div className={styles.fieldValue}>
-                  {account.status.toUpperCase()}
+                  {employee.status
+                    ? employee.status.toString().toUpperCase()
+                    : ""}
                 </div>
               </Col>
             </Row>
             <br />
             <br />
-            <Row className={styles.row}>
+            {/* <Row className={styles.row}>
               <Col md={{ span: 6, offset: 4 }}>
-                <Link to={`/search-history/${account.id}`}>
+                <Link to={`/search-history/${employee.id}`}>
                   <Button variant="primary" type="Button">
                     View Search History
                   </Button>
                 </Link>
               </Col>
-            </Row>
+            </Row> */}
           </div>
         ) : (
           <></>
@@ -166,8 +201,8 @@ class PXAccountCard extends React.Component {
   }
 }
 
-PXAccountCard.propTypes = {
-  account: PropTypes.object
+PRAccountCard.propTypes = {
+  employee: PropTypes.object
 };
 
-export default PXAccountCard;
+export default PRAccountCard;

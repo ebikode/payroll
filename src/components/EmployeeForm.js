@@ -2,22 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
-import {
-  ValidationForm,
-  TextInput,
-  SelectGroup
-} from "react-bootstrap4-form-validation";
-import { getCountries } from "../modules/selectors/global.selectors";
+import { ValidationForm, TextInput } from "react-bootstrap4-form-validation";
 import {
   getMessage,
   getLoadingStatus,
   getSuccessStatus
-} from "../modules/selectors/auth.selectors";
-import { updateAuthStore } from "../modules/actions/auth.actions";
-import { postRequest } from "../modules/utils/service";
-import { processErrorMessage } from "../modules/utils/helpers";
+} from "../modules/selectors/employee.selectors";
 import validator from "validator";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -25,7 +16,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import styles from "./css/AuthForm.module.css";
 
-class PXRegisterForm extends React.Component {
+class PREmployeeForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +24,12 @@ class PXRegisterForm extends React.Component {
       setFocusOnError: true,
       errorMsg: "",
       email: "",
-      country: "US",
+      position: "",
+      address: "",
+      about: "",
+      bankName: "",
+      accountName: "",
+      accountNumber: "",
       firstName: "",
       lastName: "",
       username: "",
@@ -48,16 +44,6 @@ class PXRegisterForm extends React.Component {
   componentWillMount() {}
 
   render() {
-    let countriesData = this.props.countries;
-
-    let countriesOptions = countriesData.map((country, index) => {
-      return (
-        <option value={country.iso} key={country.id + index}>
-          {country.name}
-        </option>
-      );
-    });
-
     let formFields = (
       <>
         <Form.Row>
@@ -139,6 +125,158 @@ class PXRegisterForm extends React.Component {
         </Form.Row>
 
         <Form.Row>
+          <Form.Group
+            as={Col}
+            controlId="position"
+            className="form-label-group"
+          >
+            <TextInput
+              className="form-control"
+              name="position"
+              id="position"
+              type="text"
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              minLength="2"
+              maxLength="50"
+              required
+              errorMessage={{ validator: "Please enter a valid Position" }}
+            />
+            <Form.Label className="form-control-placeholder">
+              Position
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group
+            as={Col}
+            controlId="bankName"
+            className="form-label-group"
+          >
+            <TextInput
+              className="form-control"
+              name="bankName"
+              id="bankName"
+              type="text"
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              minLength="3"
+              maxLength="100"
+              required
+              errorMessage={{ validator: "Please enter a valid Bank Name" }}
+            />
+            <Form.Label className="form-control-placeholder">
+              Bank Name
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group
+            as={Col}
+            controlId="accountName"
+            className="form-label-group"
+          >
+            <TextInput
+              className="form-control"
+              name="accountName"
+              id="accountName"
+              type="text"
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              minLength="2"
+              maxLength="50"
+              required
+              errorMessage={{
+                validator: "Please enter a valid Bank Account Name"
+              }}
+            />
+            <Form.Label className="form-control-placeholder">
+              Bank Account Name
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group
+            as={Col}
+            controlId="accountNumber"
+            className="form-label-group"
+          >
+            <TextInput
+              className="form-control"
+              name="accountNumber"
+              id="accountNumber"
+              type="text"
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              minLength="2"
+              maxLength="50"
+              required
+              errorMessage={{
+                validator: "Please enter a valid Bank Account Number"
+              }}
+            />
+            <Form.Label className="form-control-placeholder">
+              Bank Account Number
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group as={Col} controlId="address" className="form-label-group">
+            <TextInput
+              className="form-control"
+              name="address"
+              id="address"
+              type="text"
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              minLength="10"
+              maxLength="100"
+              required
+              errorMessage={{ validator: "Please enter a valid Address" }}
+            />
+            <Form.Label className="form-control-placeholder">
+              Address
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group as={Col} controlId="about" className="form-label-group">
+            <TextInput
+              className="form-control"
+              name="about"
+              id="about"
+              type="text"
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              minLength="5"
+              maxLength="100"
+              required
+              errorMessage={{ validator: "Please enter a valid About" }}
+            />
+            <Form.Label className="form-control-placeholder">
+              About Employee
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
           <Form.Group as={Col} controlId="email" className="form-label-group">
             <TextInput
               className="form-control"
@@ -156,24 +294,6 @@ class PXRegisterForm extends React.Component {
               errorMessage={{ validator: "Please enter a valid email" }}
             />
             <Form.Label className="form-control-placeholder">Email</Form.Label>
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row>
-          <Form.Group as={Col} controlId="country" className="form-label-group">
-            <SelectGroup
-              name="country"
-              id="country"
-              value={this.state.country}
-              required
-              errorMessage="Please select a country."
-              onChange={e => {
-                this.handleChange(e);
-                e.target.setAttribute("value", e.target.value);
-              }}
-            >
-              {countriesOptions}
-            </SelectGroup>
           </Form.Group>
         </Form.Row>
 
@@ -245,12 +365,11 @@ class PXRegisterForm extends React.Component {
 
     return (
       <>
-        <div className={styles.formBody}>
+        <div className={styles.regFormBody}>
           <div>
-            <img src="/images/pex.png" alt="PEX logo" />
-          </div>
-          <div>
-            <p>PEX+ White Label API Customer Portal SIGN UP</p>
+            <h4>Create New Employee</h4>
+
+            <br />
           </div>
 
           <ValidationForm
@@ -260,7 +379,7 @@ class PXRegisterForm extends React.Component {
             setFocusOnError={this.state.setFocusOnError}
             defaultErrorMessage={{ required: "Please fill the Form." }}
           >
-            {!this.props.isSuccess ? formFields : <></>}
+            {formFields}
 
             <Row className="text-center mt-3">
               {!this.props.isLoading && !this.props.isSuccess ? (
@@ -275,19 +394,6 @@ class PXRegisterForm extends React.Component {
             </Row>
 
             <Row>
-              <Col>
-                <div className="mt-3">
-                  <Link to="/">
-                    <Button
-                      className={styles.buttonRegister}
-                      variant="primary"
-                      type="button"
-                    >
-                      LOGIN
-                    </Button>
-                  </Link>
-                </div>
-              </Col>
               <Col>
                 <div className="text-right mt-3">
                   {this.state.isSubmitting ? (
@@ -334,8 +440,23 @@ class PXRegisterForm extends React.Component {
       case "lastName":
         this.setState({ lastName: event.target.value });
         break;
-      case "country":
-        this.setState({ country: event.target.value });
+      case "position":
+        this.setState({ position: event.target.value });
+        break;
+      case "address":
+        this.setState({ address: event.target.value });
+        break;
+      case "about":
+        this.setState({ about: event.target.value });
+        break;
+      case "bankName":
+        this.setState({ bankName: event.target.value });
+        break;
+      case "accountNumber":
+        this.setState({ accountNumber: event.target.value });
+        break;
+      case "accountName":
+        this.setState({ accountName: event.target.value });
         break;
       case "phone":
         this.setState({ phone: event.target.value });
@@ -348,89 +469,39 @@ class PXRegisterForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    // dispatch action to the auth reducer
-    this.props.updateAuthStore({
-      isSuccess: false,
-      isLoading: true,
-      message: "Processing...",
-      data: {}
-    });
-
-    if (this.state.password !== this.state.confirmPassword) {
-      this.props.updateAuthStore({
-        isSuccess: false,
-        isLoading: false,
-        message: "Password does not match",
-        data: {}
-      });
-      return;
-    }
-
     let payload = {
       email: this.state.email,
       phone: this.state.phone,
       username: this.state.username,
       first_name: this.state.firstName,
       last_name: this.state.lastName,
-      country_iso: this.state.country,
-      password: this.state.password
+      position: this.state.position,
+      address: this.state.address,
+      about: this.state.about,
+      account_name: this.state.accountName,
+      account_number: this.state.accountNumber,
+      account_bank: this.state.accountBank,
+      password: this.state.password,
+      confirm_password: this.state.confirmPassword
     };
 
-    postRequest("customer/create", payload, false)
-      .then(res => {
-        console.log("Signed up successfully!", { res });
-
-        if (!res.data.status) {
-          // dispatch action to the auth reducer
-          this.props.updateAuthStore({
-            isSuccess: false,
-            isLoading: false,
-            message: res.data.message,
-            data: {}
-          });
-        } else {
-          // dispatch action to the auth reducer
-          this.props.updateAuthStore({
-            isSuccess: true,
-            isLoading: false,
-            message: res.data.message,
-            data: {}
-          });
-        }
-      })
-      .catch(err => {
-        let message = processErrorMessage(err);
-
-        // dispatch action to the auth reducer
-
-        this.props.updateAuthStore({
-          isSuccess: false,
-          isLoading: false,
-          message: message
-        });
-
-        console.error("Eror!, some thoughts on the error that occured:", {
-          err
-        });
-      });
+    this.props.submit(payload);
   }
 }
 
-PXRegisterForm.propTypes = {
+PREmployeeForm.propTypes = {
   message: PropTypes.string,
   isLoading: PropTypes.bool,
   isSuccess: PropTypes.bool,
-  countries: PropTypes.array,
-  updateAuthStore: PropTypes.func
+  submit: PropTypes.func
 };
 
 const mapStateToProps = state => {
-  const countries = getCountries(state);
   const message = getMessage(state);
   const isLoading = getLoadingStatus(state);
   const isSuccess = getSuccessStatus(state);
 
-  return { countries, message, isLoading, isSuccess };
+  return { message, isLoading, isSuccess };
 };
 
-export default connect(mapStateToProps, { updateAuthStore })(PXRegisterForm);
+export default connect(mapStateToProps, {})(PREmployeeForm);

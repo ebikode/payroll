@@ -4,26 +4,26 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import {
-  getPlansAction,
-  createPlanAction
-} from "../../modules/actions/plan.actions";
+  getSalariesAction,
+  createSalaryAction
+} from "../../modules/actions/salary.actions";
 import {
-  getPlans,
+  getSalaries,
   getNextPage,
   getCurrentPage,
   getSuccessStatus,
   getMessage,
   getLoadingStatus
-} from "../../modules/selectors/plan.selectors";
+} from "../../modules/selectors/salary.selectors";
 import { ValidationForm } from "react-bootstrap4-form-validation";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-import PXLayout from "../../components/Layout";
-import PXPlanForm from "../../components/PlanForm";
+import PRLayout from "../../components/Layout";
+import PXSalaryForm from "../../components/SalaryForm";
 
-class AdminCreatePlansPage extends React.Component {
+class AdminCreateSalariesPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -54,7 +54,7 @@ class AdminCreatePlansPage extends React.Component {
     let form = this.state.formNameArray.map(formName => {
       return (
         <>
-          <PXPlanForm
+          <PXSalaryForm
             key={formName}
             formName={formName}
             handleChange={(e, formName) => this.handleChange(e, formName)}
@@ -65,10 +65,10 @@ class AdminCreatePlansPage extends React.Component {
     });
 
     return (
-      <PXLayout>
+      <PRLayout>
         <div>
           <div>
-            <h5 className="page-title">Create Search API Plans</h5>
+            <h5 className="page-title">Create Search API Salaries</h5>
             <hr />
           </div>
           <div className="justify-content-center">
@@ -122,7 +122,7 @@ class AdminCreatePlansPage extends React.Component {
             </Row>
           </div>
         </div>
-      </PXLayout>
+      </PRLayout>
     );
   }
 
@@ -184,7 +184,7 @@ class AdminCreatePlansPage extends React.Component {
 
     console.log({ payloads });
 
-    this.createPlan(payloads);
+    this.createSalary(payloads);
   }
 
   handleChange(event, formName) {
@@ -247,35 +247,35 @@ class AdminCreatePlansPage extends React.Component {
     }
   }
 
-  createPlan(payloads) {
+  createSalary(payloads) {
     // console.log({payloads});
-    this.props.createPlanAction(this.props.dispatch, payloads).then(() => {
-      this.props.history.push("/admin/search-plans");
+    this.props.createSalaryAction(this.props.dispatch, payloads).then(() => {
+      this.props.history.push("/admin/search-salarys");
     });
   }
 }
 
-AdminCreatePlansPage.propTypes = {
-  plans: PropTypes.array,
+AdminCreateSalariesPage.propTypes = {
+  salarys: PropTypes.array,
   currentPage: PropTypes.number,
   nextPage: PropTypes.number,
   isSuccess: PropTypes.bool,
   isLoading: PropTypes.bool,
   message: PropTypes.string,
   history: PropTypes.any,
-  createPlanAction: PropTypes.func,
+  createSalaryAction: PropTypes.func,
   dispatch: PropTypes.any
 };
 
 const mapStateToProps = state => {
-  const plans = getPlans(state);
+  const salarys = getSalaries(state);
   const nextPage = getNextPage(state);
   const currentPage = getCurrentPage(state);
   const isSuccess = getSuccessStatus(state);
   const message = getMessage(state);
   const isLoading = getLoadingStatus(state);
   return {
-    plans,
+    salarys,
     isLoading,
     message,
     isSuccess,
@@ -286,12 +286,12 @@ const mapStateToProps = state => {
 
 const mapDispatchActionToProps = dispatch => {
   return {
-    getPlansAction,
-    createPlanAction,
+    getSalariesAction,
+    createSalaryAction,
     dispatch
   };
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchActionToProps)(AdminCreatePlansPage)
+  connect(mapStateToProps, mapDispatchActionToProps)(AdminCreateSalariesPage)
 );

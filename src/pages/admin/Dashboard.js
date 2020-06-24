@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import Col from "react-bootstrap/Col";
 import { getAdmin } from "../../modules/actions/auth.actions";
-import { minimizeFigures, formatCurrency } from "../../modules/utils/helpers";
+import { formatCurrency, months } from "../../modules/utils/helpers";
 import {
   getWelcomeMessage,
   getAdminRole,
@@ -12,7 +12,7 @@ import {
   getDashboardState,
   getRecentPayrolls
 } from "../../modules/selectors/auth.selectors";
-import MDLayout from "../../components/Layout";
+import PRLayout from "../../components/Layout";
 import MDStatsBox from "../../components/StatsBox";
 import PropTypes from "prop-types";
 
@@ -26,75 +26,47 @@ class AdminDashboardPage extends React.Component {
 
     let items = [
       {
-        value: minimizeFigures(
-          this.props.dashboardData.active_employees_count,
-          "100M"
-        ),
+        value: this.props.dashboardData.active_employees_count,
         text: "Active Employees",
         icon: "fas fa-users"
       },
       {
-        value: minimizeFigures(
-          this.props.dashboardData.pending_employees_count,
-          "100M"
-        ),
+        value: this.props.dashboardData.pending_employees_count,
         text: "Pending Employees",
         icon: "fas fa-users"
       },
       {
-        value:
-          "NGN" +
-          minimizeFigures(
-            this.props.dashboardData.gross_salary_paid,
-            "100M",
-            true
-          ),
+        value: this.props.dashboardData.gross_salary_paid,
         text: "Gross Salaries Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "NGN" +
-          minimizeFigures(
-            this.props.dashboardData.net_salary_paid,
-            "100M",
-            true
-          ),
+        value: formatCurrency(Number(this.props.dashboardData.net_salary_paid)),
         text: "Net Salaries Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "NGN" +
-          minimizeFigures(this.props.dashboardData.pension_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.pension_paid),
         text: "Pension Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "NGN" +
-          minimizeFigures(this.props.dashboardData.paye_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.paye_paid),
         text: "PAYE Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "NGN" +
-          minimizeFigures(this.props.dashboardData.nsitf_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.nsitf_paid),
         text: "NSITF Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "NGN" +
-          minimizeFigures(this.props.dashboardData.nhf_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.nhf_paid),
         text: "NHF Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "NGN" +
-          minimizeFigures(this.props.dashboardData.itf_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.itf_paid),
         text: "ITF Paid",
         icon: "fas fa-address-card"
       }
@@ -104,7 +76,7 @@ class AdminDashboardPage extends React.Component {
       this.props.payrolls.map(payroll => (
         <tr key={payroll.id.toString()}>
           <td className="td-border-left">{payroll.id}</td>
-          <td>{payroll.month}</td>
+          <td>{months[payroll.month]}</td>
           <td>{payroll.year}</td>
           <td>
             {payroll.employee.first_name} {payroll.employee.last_name}
@@ -127,7 +99,7 @@ class AdminDashboardPage extends React.Component {
     );
 
     return (
-      <MDLayout>
+      <PRLayout>
         <div>
           <Row>
             <Col>
@@ -180,7 +152,7 @@ class AdminDashboardPage extends React.Component {
             </Col>
           </Row>
         </div>
-      </MDLayout>
+      </PRLayout>
     );
   }
 }

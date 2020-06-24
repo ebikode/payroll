@@ -2,7 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { updateSettingAction } from "../../modules/actions/setting.actions";
+import {
+  updateSettingAction,
+  getSettingsAction
+} from "../../modules/actions/setting.actions";
 import {
   getSettings,
   getSuccessStatus,
@@ -14,7 +17,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-import PXLayout from "../../components/Layout";
+import PRLayout from "../../components/Layout";
 import PXSettingForm from "../../components/SettingForm";
 
 class AdminSettingsPage extends React.Component {
@@ -31,7 +34,9 @@ class AdminSettingsPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getSettingsAction(this.props.dispatch);
+  }
 
   render() {
     let forms = this.props.settings.map((setting, index) => {
@@ -40,7 +45,7 @@ class AdminSettingsPage extends React.Component {
       return (
         <>
           <Row key={`Row${formName}`}>
-            <Col md={{ span: 8, offset: 2 }}>
+            <Col md={{ span: 8, offset: 2 }} className="settingForm">
               <ValidationForm
                 key={`ValidationForm${formName}`}
                 onSubmit={e => this.handleSubmit(e, formName)}
@@ -95,13 +100,12 @@ class AdminSettingsPage extends React.Component {
               </ValidationForm>
             </Col>
           </Row>
-          <hr key={`hr${formName}`} />
         </>
       );
     });
 
     return (
-      <PXLayout>
+      <PRLayout>
         <div>
           <div>
             <h5 className="page-title">Update App Settings</h5>
@@ -109,7 +113,7 @@ class AdminSettingsPage extends React.Component {
           </div>
           <div className="justify-content-center">{forms}</div>
         </div>
-      </PXLayout>
+      </PRLayout>
     );
   }
 
@@ -204,6 +208,7 @@ AdminSettingsPage.propTypes = {
   isLoading: PropTypes.bool,
   message: PropTypes.string,
   updateSettingAction: PropTypes.func,
+  getSettingsAction: PropTypes.func,
   dispatch: PropTypes.any
 };
 
@@ -223,6 +228,7 @@ const mapStateToProps = state => {
 const mapDispatchActionToProps = dispatch => {
   return {
     updateSettingAction,
+    getSettingsAction,
     dispatch
   };
 };

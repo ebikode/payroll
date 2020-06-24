@@ -3,98 +3,59 @@ import { connect } from "react-redux";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import Col from "react-bootstrap/Col";
-import { getAdmin } from "../modules/actions/auth.actions";
-import { minimizeFigures } from "../modules/utils/helpers";
+import { getEmployee } from "../modules/actions/auth.actions";
+import { formatCurrency, months } from "../modules/utils/helpers";
 import {
   getWelcomeMessage,
-  getAdminRole,
-  getAdminState,
+  getEmployeeState,
   getDashboardState,
   getRecentPayrolls
 } from "../modules/selectors/auth.selectors";
-import MDLayout from "../components/Layout";
+import PRLayout from "../components/Layout";
 import MDStatsBox from "../components/StatsBox";
 import PropTypes from "prop-types";
 
 class DashboardPage extends React.Component {
   componentDidMount() {
-    getAdmin();
+    getEmployee();
   }
 
   render() {
-    let admin = `${this.props.admin.first_name} ${this.props.admin.last_name}`;
+    let employee = `${this.props.employee.first_name} ${this.props.employee.last_name}`;
 
     let items = [
       {
-        value: minimizeFigures(
-          this.props.dashboardData.active_employees_count,
-          "100M"
-        ),
-        text: "Active Employees",
-        icon: "fas fa-users"
-      },
-      {
-        value: minimizeFigures(
-          this.props.dashboardData.pending_employees_count,
-          "100M"
-        ),
-        text: "Pending Employees",
-        icon: "fas fa-users"
-      },
-      {
-        value:
-          "$" +
-          minimizeFigures(
-            this.props.dashboardData.gross_salary_paid,
-            "100M",
-            true
-          ),
-        text: "Gross Salaries Paid",
+        value: this.props.dashboardData.gross_salary_earned,
+        text: "Gross Salaries Earned",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "$" +
-          minimizeFigures(
-            this.props.dashboardData.net_salary_paid,
-            "100M",
-            true
-          ),
-        text: "Net Salaries Paid",
+        value: formatCurrency(this.props.dashboardData.net_salary_earned),
+        text: "Net Salaries Earned",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "$" +
-          minimizeFigures(this.props.dashboardData.pension_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.pension_paid),
         text: "Pension Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "$" +
-          minimizeFigures(this.props.dashboardData.paye_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.paye_paid),
         text: "PAYE Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "$" +
-          minimizeFigures(this.props.dashboardData.nsitf_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.nsitf_paid),
         text: "NSITF Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "$" +
-          minimizeFigures(this.props.dashboardData.nhf_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.nhf_paid),
         text: "NHF Paid",
         icon: "fas fa-address-card"
       },
       {
-        value:
-          "$" +
-          minimizeFigures(this.props.dashboardData.itf_paid, "100M", true),
+        value: formatCurrency(this.props.dashboardData.itf_paid),
         text: "ITF Paid",
         icon: "fas fa-address-card"
       }
@@ -103,19 +64,8 @@ class DashboardPage extends React.Component {
     const rows = this.props.payrolls ? (
       this.props.payrolls.map(payroll => (
         <tr key={payroll.id.toString()}>
-          <td className="td-border-left">{payroll.id}</td>
-          <td>
-            {payroll.currency}
-            {payroll.month}
-          </td>
-          <td>
-            {payroll.currency}
-            {payroll.year}
-          </td>
-          <td>
-            {payroll.employee.first_name} {payroll.employee.last_name}
-          </td>
-          <td>{payroll.employee.position}</td>
+          <td className="td-border-left">{months[payroll.month]}</td>
+          <td>{payroll.year}</td>
           <td>
             {payroll.currency}
             {payroll.gross_salary}
@@ -144,6 +94,8 @@ class DashboardPage extends React.Component {
             {payroll.currency}
             {payroll.tax.itf}
           </td>
+          <td>{payroll.payment_status}</td>
+          <td>{payroll.status}</td>
           <td className="td-border-right">
             {new Date(payroll.created_at).toLocaleString()}
           </td>
@@ -154,15 +106,14 @@ class DashboardPage extends React.Component {
     );
 
     return (
-      <MDLayout>
+      <PRLayout>
         <div>
           <Row>
-            <Col md={8} sm={6}>
+            <Col>
               <div className="welcomeBox">
                 <div className="welcomeTitle">
-                  Welcome, <span className="adminName">{admin}</span>
+                  Welcome, <span className="adminName">{employee}</span>
                 </div>
-                <div className="welcomeText">{this.props.welcomeMessage}</div>
               </div>
               <br />
               <div>
@@ -173,8 +124,10 @@ class DashboardPage extends React.Component {
               <MDStatsBox data={items} />
             </Col>
           </Row>
+          <br />
+          <br />
           <Row>
-            <Col md={{ span: 8, offset: 0 }}>
+            <Col>
               {this.props.payrolls < 1 ? (
                 <></>
               ) : (
@@ -184,11 +137,8 @@ class DashboardPage extends React.Component {
                   <Table bordered hover responsive>
                     <thead>
                       <tr>
-                        <th>ID</th>
                         <th>MONTH</th>
                         <th>YEAR</th>
-                        <th>EMPLOYEE</th>
-                        <th>POSITION</th>
                         <th>GROSS SALARY</th>
                         <th>NET SALARY</th>
                         <th>PENSION</th>
@@ -196,6 +146,8 @@ class DashboardPage extends React.Component {
                         <th>NSITF</th>
                         <th>NHF</th>
                         <th>ITF</th>
+                        <th>PAYMENT STATUS</th>
+                        <th>STATUS</th>
                         <th>DATE</th>
                       </tr>
                     </thead>
@@ -206,27 +158,25 @@ class DashboardPage extends React.Component {
             </Col>
           </Row>
         </div>
-      </MDLayout>
+      </PRLayout>
     );
   }
 }
 
 DashboardPage.propTypes = {
-  role: PropTypes.string,
   welcomeMessage: PropTypes.string,
-  admin: PropTypes.object,
+  employee: PropTypes.object,
   dashboardData: PropTypes.object,
   payrolls: PropTypes.array
 };
 
 const mapStateToProps = state => {
-  const role = getAdminRole(state);
   const welcomeMessage = getWelcomeMessage(state);
-  const admin = getAdminState(state);
+  const employee = getEmployeeState(state);
   const dashboardData = getDashboardState(state);
   const payrolls = getRecentPayrolls(state);
-  // console.log(admin, dashboardData);
-  return { role, welcomeMessage, admin, dashboardData, payrolls };
+  // console.log(employee, dashboardData);
+  return { welcomeMessage, employee, dashboardData, payrolls };
 };
 
 export default connect(mapStateToProps)(DashboardPage);

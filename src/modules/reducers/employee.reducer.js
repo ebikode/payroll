@@ -1,6 +1,7 @@
 import {
   UPDATE_EMPLOYEES,
-  UPDATE_EMPLOYEES_STATUS
+  UPDATE_EMPLOYEES_STATUS,
+  UPDATE_EMPLOYEE
 } from "../action-types/employee.actionTypes";
 
 const initialState = {
@@ -44,6 +45,21 @@ export default function(state = initialState, action) {
         nextPage: nextPage,
         currentPage: currentPage,
         employees: data
+      };
+    }
+    case UPDATE_EMPLOYEE: {
+      const { isSuccess, isLoading, message, employee } = action.payload;
+
+      let employees = state.employees;
+
+      employees.byIDs[employee.id] = employee;
+
+      return {
+        ...state,
+        isSuccess: isSuccess,
+        isLoading: isLoading,
+        message: message,
+        employees: employees
       };
     }
     default:

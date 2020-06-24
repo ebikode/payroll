@@ -15,7 +15,7 @@
   }
 
 body {
-    font-family: 'Segoe UI Semi Light';
+    font-family: 'Segoe UI Regular';
     margin: 0 auto;
     background-color: var(--bg-color);
     overflow: hidden;
@@ -37,11 +37,24 @@ hr {
 }
 
 button {
-  color: var(--fg-color) !important;
+  color: var(--text-color) !important;
   background: var(--md-color) !important;
   background-color: var(--md-color) !important;
   border-color: var(--md-color) !important;
   border-radius: 10px !important;
+}
+
+.dropdownToggle {
+  text-overflow: ellipsis;
+  max-width: 170px;
+  width: 170px;
+  overflow: hidden;
+}
+
+.dropdownToggle::after {
+  position: absolute;
+  right: 10%;
+  top: 50%;
 }
 
 .table-button {
@@ -72,7 +85,7 @@ color: #E34D34;
 }
 
 .bgContent {
-  background-image: url('/images/bg.png');
+  /* background-image: url('/images/bg.png'); */
   background-position: center;
   background-size: 110%;
 }
@@ -84,6 +97,12 @@ color: #E34D34;
   background-color: var(--bg-color-91);
 }
 
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .form-content {
     background-color: var(--fg-color);
     border-radius: 20px !important;
@@ -93,6 +112,15 @@ color: #E34D34;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.modal-content {
+  background-color: var(--fg-color);
+}
+
+.modal-content .close {
+  background-color: var(--fg-color) !important;
+  color: var(--alt-color) !important;
 }
 
 .pageTitle {
@@ -140,6 +168,17 @@ nav {
   font-size: 14px;
 }
 
+/* Settings */
+
+.settingForm {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: var(--fg-color);
+  border-radius: 20px;
+  margin-top: 20px;
+}
+
 
 /* FORM */
 
@@ -166,14 +205,16 @@ nav {
     width: 100%;
     height: 50px;
     line-height: 1.5;
-    color: var(--md-color);
+    color: var(--text-color);
     background-color:  var(--fg-color) !important;
     border: 1px solid var(--border-color) !important;
   }
 
   .form-control:focus {
+    font-size: 18px;
+    font-family: 'Segoe UI Regular';
     border-color: var(--border-color)  !important;
-    color: var(--md-color);
+    color: var(--text-color);
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(182, 255, 133, 0.267) !important;
 }
@@ -263,12 +304,18 @@ nav {
 
 /* PAGINATION */
 .page-link {
-  color: #EFE60E !important;
+  color: var(--text-color) !important;
+  border-color: var(--bg-color) !important;
+  background-color: var(--bg-color) !important;
+  font-size: 34px;
 }
 
 @media only screen and (max-width: 600px) {
   .form-content {
     padding-left: .5rem;
     padding-right: .5rem;
+  }
+  .body-inner {
+    padding: 40px 20px 20px 50px !important;
   }
 }

@@ -15,7 +15,7 @@ const initState = {
   billing: {},
   plan: {},
   account: {},
-  customer: {},
+  employee: {},
   setting: {},
   log: {},
   token: {}

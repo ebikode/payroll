@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import {
-  getAdminRole,
-  getAdminState
+  getAdminState,
+  getAdminStatus,
+  getEmployeeState
 } from "../modules/selectors/auth.selectors";
 import styles from "./css/SideBar.module.css";
 
@@ -19,21 +20,25 @@ const links = [
     text: "Employees"
   },
   {
-    url: "/admin/payrolls",
-    text: "Payrolls"
-  },
-  {
     url: "/admin/salaries",
     text: "Salaries"
   },
   {
-    url: "/admin/tax",
-    text: "Tax"
+    url: "/admin/payrolls",
+    text: "Payrolls"
   },
   {
-    url: "/admin/admin",
-    text: "Admin"
+    url: "/admin/reports",
+    text: "Reports"
   },
+  {
+    url: "/admin/taxes",
+    text: "Tax"
+  },
+  // {
+  //   url: "/admin/admin",
+  //   text: "Admin"
+  // },
   {
     url: "/admin/settings",
     text: "Settings"
@@ -44,7 +49,26 @@ const links = [
   }
 ];
 
-class PXAdminSideBar extends React.Component {
+const employeeLinks = [
+  {
+    url: "/dashboard",
+    text: "Dashboard"
+  },
+  {
+    url: "/payrolls",
+    text: "Payrolls"
+  },
+  {
+    url: "/taxes",
+    text: "Tax"
+  },
+  {
+    url: "/profile",
+    text: "Profile"
+  }
+];
+
+class PXSideBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,28 +87,44 @@ class PXAdminSideBar extends React.Component {
       </Link>
     ));
 
+    let employeeItems = employeeLinks.map(link => (
+      <Link to={link.url} key={link.text}>
+        <div className={styles.card}>
+          <p>{link.text}</p>
+        </div>
+      </Link>
+    ));
+
     return (
       <>
-        <div className={styles.sideBarBody}>
-          <>{items}</>
-        </div>
+        {this.props.isAdmin ? (
+          <div className={styles.sideBarBody}>
+            <>{items}</>
+          </div>
+        ) : (
+          <div className={styles.sideBarBody}>
+            <>{employeeItems}</>
+          </div>
+        )}
       </>
     );
   }
 }
 
-PXAdminSideBar.propTypes = {
-  customer: PropTypes.object,
+PXSideBar.propTypes = {
+  isAdmin: PropTypes.bool,
+  employee: PropTypes.object,
   admin: PropTypes.object,
   logout: PropTypes.func
 };
 
 // Map the need state properties to the component property
 const mapStateToProps = state => {
-  const role = getAdminRole(state);
+  const isAdmin = getAdminStatus(state);
   const admin = getAdminState(state);
-  // console.log(customer)
-  return { role, admin };
+  const employee = getEmployeeState(state);
+  // console.log(employee)
+  return { isAdmin, admin, employee };
 };
 
-export default connect(mapStateToProps)(PXAdminSideBar);
+export default connect(mapStateToProps)(PXSideBar);

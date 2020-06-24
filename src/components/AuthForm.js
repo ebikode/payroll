@@ -198,6 +198,7 @@ class PRAuthForm extends React.Component {
           let data = res.data;
           saveDashboardData(data);
           reactLocalStorage.setObject(admin, data.admin);
+          reactLocalStorage.setObject(employee, data.employee);
           reactLocalStorage.set(token, res.data.token);
 
           Cookies.set(token, res.data.token);

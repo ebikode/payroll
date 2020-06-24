@@ -1,5 +1,6 @@
 .body {
-    background-color: #FFFFFF;
+    color: var(--text-color);;
+    background-color: var(--fg-color);;
     min-width: calc(100vw/2);
     width: calc(100vw/2);
     margin: 20px 5px;
@@ -13,7 +14,7 @@
 }
 .cardHeader {
     height: 70px;
-    background-color: #EFE60E;
+    background-color: var(--alt-color);
     margin-bottom: 30px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -33,7 +34,7 @@
     width: calc(50vw/2);
     border-radius: 10px;
     position: relative;
-    background-color: #FFFFFF;
+    background-color: var(--fg-color);
     left: 25%;
 }
 

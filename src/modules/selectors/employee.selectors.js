@@ -1,7 +1,7 @@
 // Get employee state from the store
 export const getEmployeeState = store => store.employee;
 
-// CUSTOMER SELECTOR
+// EMPLOYEE SELECTOR
 
 // Get Employees Data State from store
 export const getEmployeesState = store =>

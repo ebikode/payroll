@@ -114,7 +114,7 @@ class PXPlanForm extends React.Component {
               errorMessage={{ validator: "Please enter a valid email" }}
             />
             <Form.Label className="form-control-placeholder">
-              Customer Email
+              employee Email
             </Form.Label>
           </Form.Group>
         </Form.Row>

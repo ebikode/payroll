@@ -16,7 +16,7 @@ export const getLogsAction = (dispatch, page = 1) => {
     }
   });
 
-  let url = `admin/owner/activity_log?page=${page}&limit=20`;
+  let url = `admin/super_admin/activity_log?page=${page}&limit=20`;
 
   getRequest(url, true)
     .then(res => {

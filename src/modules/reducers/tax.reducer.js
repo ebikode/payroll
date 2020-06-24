@@ -1,7 +1,7 @@
 import {
-  UPDATE_PAYMENTS,
-  UPDATE_PAYMENTS_STATUS
-} from "../action-types/payment.actionTypes";
+  UPDATE_TAXES,
+  UPDATE_TAXES_STATUS
+} from "../action-types/tax.actionTypes";
 
 const initialState = {
   isSuccess: false,
@@ -9,16 +9,16 @@ const initialState = {
   message: "",
   nextPage: 0,
   currentPage: 1,
-  payments: {
+  taxes: {
     iDs: [],
-    byIDs: {} // holds payments with their id as key
+    byIDs: {} // holds taxes with their id as key
   }
 };
 
 export default function(state = initialState, action) {
   console.log("action.payload", action.payload);
   switch (action.type) {
-    case UPDATE_PAYMENTS_STATUS: {
+    case UPDATE_TAXES_STATUS: {
       const { isSuccess, isLoading, message } = action.payload;
       return {
         ...state,
@@ -27,7 +27,7 @@ export default function(state = initialState, action) {
         message: message
       };
     }
-    case UPDATE_PAYMENTS: {
+    case UPDATE_TAXES: {
       const {
         isSuccess,
         isLoading,
@@ -43,7 +43,7 @@ export default function(state = initialState, action) {
         message: message,
         nextPage: nextPage,
         currentPage: currentPage,
-        payments: data
+        taxes: data
       };
     }
     default:

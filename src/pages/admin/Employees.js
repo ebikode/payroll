@@ -4,7 +4,11 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import { formatCurrency } from "../../modules/utils/helpers";
-import { getEmployees as getEmployeeActions } from "../../modules/actions/employee.actions";
+import {
+  getEmployees as getEmployeeActions,
+  updateEmployeeAction
+} from "../../modules/actions/employee.actions";
+import { createSalaryAction } from "../../modules/actions/salary.actions";
 import {
   getEmployees,
   getNextPage,
@@ -19,7 +23,9 @@ import Col from "react-bootstrap/Col";
 import { Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
-import PXLayout from "../../components/Layout";
+import PRLayout from "../../components/Layout";
+import PRSalaryModalForm from "../../components/SalaryModal";
+import PREmployeeFormModal from "../../components/EmployeeFormModal";
 
 class AdminEmployeesPage extends React.Component {
   constructor(props) {
@@ -29,7 +35,8 @@ class AdminEmployeesPage extends React.Component {
       employee: {},
       selectedEmployeeId: "",
       showModal: false,
-      showDetailsModal: false
+      showDetailsModal: false,
+      showSalaryModal: false
     };
   }
 
@@ -82,21 +89,25 @@ class AdminEmployeesPage extends React.Component {
             >
               Edit
             </Button>
-            <Button
-              className="table-button"
-              onClick={() =>
-                this.setState({ employee: employee, showDetailsModal: true })
-              }
-            >
-              Edit
-            </Button>
+            {!employee.salary ? (
+              <Button
+                className="table-button"
+                onClick={() =>
+                  this.setState({ employee: employee, showSalaryModal: true })
+                }
+              >
+                Salary
+              </Button>
+            ) : (
+              <></>
+            )}
           </td>
         </tr>
       );
     });
 
     return (
-      <PXLayout>
+      <PRLayout>
         <div>
           <div>
             <h5 className="page-title">Employees</h5>
@@ -134,8 +145,44 @@ class AdminEmployeesPage extends React.Component {
             </Row>
           </div>
         </div>
-      </PXLayout>
+        <PRSalaryModalForm
+          show={this.state.showSalaryModal}
+          close={() => this.setState({ showSalaryModal: false })}
+          employee={this.state.employee}
+          submit={payload => this.createSalary(payload)}
+          formTitle="Add Salary"
+          buttonText="Submit"
+        />
+        <PREmployeeFormModal
+          show={this.state.showModal}
+          close={() => this.setState({ showModal: false })}
+          employee={this.state.employee}
+          submit={payload => this.updateEmployee(payload)}
+          formTitle="Update Employee"
+          buttonText="Update"
+        />
+      </PRLayout>
     );
+  }
+
+  updateEmployee(payload) {
+    console.log({ payload });
+    this.props.updateEmployeeAction(this.props.dispatch, payload).then(() => {
+      if (this.props.isSuccess) {
+        this.setState({ showModal: false });
+        this.props.getEmployeeActions(this.props.dispatch);
+      }
+    });
+  }
+
+  createSalary(payload) {
+    console.log({ payload });
+    this.props.createSalaryAction(this.props.dispatch, payload).then(() => {
+      if (this.props.isSuccess) {
+        this.setState({ showSalaryModal: false });
+        this.props.getEmployeeActions(this.props.dispatch);
+      }
+    });
   }
 }
 
@@ -147,6 +194,8 @@ AdminEmployeesPage.propTypes = {
   isLoading: PropTypes.bool,
   message: PropTypes.string,
   getEmployeeActions: PropTypes.func,
+  updateEmployeeAction: PropTypes.func,
+  createSalaryAction: PropTypes.func,
   dispatch: PropTypes.any
 };
 
@@ -170,6 +219,8 @@ const mapStateToProps = state => {
 const mapDispatchActionToProps = dispatch => {
   return {
     getEmployeeActions,
+    updateEmployeeAction,
+    createSalaryAction,
     dispatch
   };
 };

@@ -4,16 +4,12 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { Form } from "react-bootstrap";
-import {
-  ValidationForm,
-  TextInput,
-  SelectGroup
-} from "react-bootstrap4-form-validation";
+import { ValidationForm, TextInput } from "react-bootstrap4-form-validation";
 import {
   getMessage,
   getLoadingStatus,
   getSuccessStatus
-} from "../modules/selectors/plan.selectors";
+} from "../modules/selectors/salary.selectors";
 import validator from "validator";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -22,16 +18,18 @@ import Button from "react-bootstrap/Button";
 import PXModal from "./Modal";
 import styles from "./css/AuthForm.module.css";
 
-class PXRateModalForm extends React.Component {
+class PRSalaryModalForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       immediate: true,
       setFocusOnError: true,
-      minPoint: undefined,
-      maxPoint: undefined,
-      costPerPoint: undefined,
-      status: undefined
+      salary: undefined,
+      pension: undefined,
+      paye: undefined,
+      nsitf: undefined,
+      nhf: undefined,
+      itf: undefined
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -39,121 +37,151 @@ class PXRateModalForm extends React.Component {
   }
 
   render() {
-    let statusType = ["active", "disabled"];
-
-    let statusTypeOptions = statusType.map(type => {
-      return (
-        <option value={type} key={type}>
-          {type.toUpperCase()}
-        </option>
-      );
-    });
-
     let formFields = (
       <>
         <Form.Row>
-          <Form.Group
-            as={Col}
-            controlId="minPoint"
-            className="form-label-group"
-          >
+          <Form.Group as={Col} controlId="salary" className="form-label-group">
             <TextInput
-              id="minPoint"
               className="form-control"
-              name="minPoint"
+              name="salary"
+              id="salary"
               type="text"
-              defaultValue={this.props.rate.min_point}
               onBlur={e => this.handleChange(e)}
-              onChange={e => {
-                this.handleChange(e);
-                e.target.setAttribute("value", e.target.value);
-              }}
-              validator={validator.isInt}
-              errorMessage={{
-                validator: `Please enter a Valid Number.`
-              }}
-              required
-            />
-            <Form.Label className="form-control-placeholder">
-              Min. Point
-            </Form.Label>
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row>
-          <Form.Group
-            as={Col}
-            controlId="maxPoint"
-            className="form-label-group"
-          >
-            <TextInput
-              id="maxPoint"
-              className="form-control"
-              name="maxPoint"
-              type="text"
-              defaultValue={this.props.rate.max_point}
-              onBlur={e => this.handleChange(e)}
-              onChange={e => {
-                this.handleChange(e);
-                e.target.setAttribute("value", e.target.value);
-              }}
-              validator={validator.isInt}
-              errorMessage={{
-                validator: `Please enter a Valid Number.`
-              }}
-              required
-            />
-            <Form.Label className="form-control-placeholder">
-              Max. Point
-            </Form.Label>
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row>
-          <Form.Group
-            as={Col}
-            controlId="costPerPoint"
-            className="form-label-group"
-          >
-            <TextInput
-              id="costPerPoint"
-              className="form-control"
-              name="costPerPoint"
-              type="text"
-              defaultValue={this.props.rate.cost_per_point}
-              onBlur={e => this.handleChange(e)}
+              defaultValue={this.props.salary ? this.props.salary.salary : ""}
               onChange={e => {
                 this.handleChange(e);
                 e.target.setAttribute("value", e.target.value);
               }}
               validator={validator.isFloat}
-              errorMessage={{
-                validator: `Please enter a Valid Cost.`
-              }}
+              minLength="2"
+              maxLength="30"
               required
+              errorMessage={{ validator: "Please enter a valid Salary" }}
             />
             <Form.Label className="form-control-placeholder">
-              Cost Per Point
+              Salary(NGN)
             </Form.Label>
           </Form.Group>
         </Form.Row>
 
         <Form.Row>
-          <Form.Group as={Col} controlId="status" className="form-label-group">
-            <Form.Label>Status</Form.Label>
-            <SelectGroup
-              name="status"
-              id="status"
-              defaultValue={this.props.rate.status}
-              required
-              errorMessage="Please select Status."
+          <Form.Group as={Col} controlId="pension" className="form-label-group">
+            <TextInput
+              id="pension"
+              className="form-control"
+              name="pension"
+              type="text"
+              defaultValue={this.props.salary ? this.props.salary.pension : ""}
+              onBlur={e => this.handleChange(e)}
               onChange={e => {
                 this.handleChange(e);
                 e.target.setAttribute("value", e.target.value);
               }}
-            >
-              {statusTypeOptions}
-            </SelectGroup>
+              validator={validator.isInt}
+              errorMessage={{
+                validator: `Please enter a Valid Percantage Number.`
+              }}
+              required
+            />
+            <Form.Label className="form-control-placeholder">
+              Pension(%)
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group as={Col} controlId="paye" className="form-label-group">
+            <TextInput
+              id="paye"
+              className="form-control"
+              name="paye"
+              type="text"
+              defaultValue={this.props.salary ? this.props.salary.paye : ""}
+              onBlur={e => this.handleChange(e)}
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              validator={validator.isInt}
+              errorMessage={{
+                validator: `Please enter a Valid Percentage Number.`
+              }}
+              required
+            />
+            <Form.Label className="form-control-placeholder">
+              PAYE(%)
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group as={Col} controlId="nsitf" className="form-label-group">
+            <TextInput
+              id="nsitf"
+              className="form-control"
+              name="nsitf"
+              type="text"
+              defaultValue={this.props.salary ? this.props.salary.paye : ""}
+              onBlur={e => this.handleChange(e)}
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              validator={validator.isInt}
+              errorMessage={{
+                validator: `Please enter a Valid Percentage Number.`
+              }}
+              required
+            />
+            <Form.Label className="form-control-placeholder">
+              NSITF(%)
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group as={Col} controlId="nhf" className="form-label-group">
+            <TextInput
+              id="nhf"
+              className="form-control"
+              name="nhf"
+              type="text"
+              defaultValue={this.props.salary ? this.props.salary.nhf : ""}
+              onBlur={e => this.handleChange(e)}
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              validator={validator.isInt}
+              errorMessage={{
+                validator: `Please enter a Valid Percentage Number.`
+              }}
+              required
+            />
+            <Form.Label className="form-control-placeholder">NHF(%)</Form.Label>
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group as={Col} controlId="itf" className="form-label-group">
+            <TextInput
+              id="itf"
+              className="form-control"
+              name="itf"
+              type="text"
+              defaultValue={this.props.salary ? this.props.salary.itf : ""}
+              onBlur={e => this.handleChange(e)}
+              onChange={e => {
+                this.handleChange(e);
+                e.target.setAttribute("value", e.target.value);
+              }}
+              validator={validator.isInt}
+              errorMessage={{
+                validator: `Please enter a Valid Percentage Number.`
+              }}
+              required
+            />
+            <Form.Label className="form-control-placeholder">ITF(%)</Form.Label>
           </Form.Group>
         </Form.Row>
       </>
@@ -180,7 +208,7 @@ class PXRateModalForm extends React.Component {
                     variant="primary"
                     type="submit"
                   >
-                    Update
+                    {this.props.buttonText}
                   </Button>
                 </div>
               </Col>
@@ -193,7 +221,7 @@ class PXRateModalForm extends React.Component {
     return (
       <>
         <PXModal
-          title="Update Rate"
+          title={this.props.formTitle}
           show={this.props.show}
           close={this.props.close}
         >
@@ -228,20 +256,18 @@ class PXRateModalForm extends React.Component {
     e.preventDefault();
 
     let state = this.state;
-    let rate = this.props.rate;
+    let salary = this.props.salary ? this.props.salary : {};
+    let employee = this.props.employee;
 
     let payload = {
-      rate_id: rate.id,
-      min_point: state.minPoint
-        ? Number(state.minPoint)
-        : Number(rate.min_point),
-      max_point: state.startupMinPoint
-        ? Number(state.maxPoint)
-        : Number(rate.max_point),
-      cost_per_point: state.analytics
-        ? parseFloat(state.costPerPoint)
-        : rate.cost_per_point,
-      status: state.status ? state.status : rate.status
+      employee_id: employee.id ? employee.id : "",
+      salary_id: salary ? salary.id : "",
+      salary: state.salary ? Number(state.salary) : Number(salary.salary),
+      pension: state.pension ? Number(state.pension) : Number(salary.pension),
+      paye: state.paye ? Number(state.paye) : Number(salary.paye),
+      nsitf: state.nsitf ? Number(state.nsitf) : Number(salary.nsitf),
+      nhf: state.nhf ? Number(state.nhf) : Number(salary.nhf),
+      itf: state.itf ? Number(state.itf) : Number(salary.itf)
     };
     this.props.submit(payload);
   }
@@ -254,26 +280,23 @@ class PXRateModalForm extends React.Component {
     let val = event.target.value;
 
     switch (event.target.id) {
-      case "name":
-        this.setState({ name: val });
+      case "salary":
+        this.setState({ salary: val });
         break;
-      case "minPoint":
-        this.setState({ minPoint: val });
+      case "pension":
+        this.setState({ pension: val });
         break;
-      case "startupMinPoint":
-        this.setState({ startupMinPoint: val });
+      case "paye":
+        this.setState({ paye: val });
         break;
-      case "showMiles":
-        this.setState({ showMiles: val });
+      case "nsitf":
+        this.setState({ nsitf: val });
         break;
-      case "analytics":
-        this.setState({ analytics: val });
+      case "nhf":
+        this.setState({ nhf: val });
         break;
-      case "priceAlert":
-        this.setState({ priceAlert: val });
-        break;
-      case "status":
-        this.setState({ status: val });
+      case "itf":
+        this.setState({ itf: val });
         break;
       default:
         break;
@@ -281,12 +304,15 @@ class PXRateModalForm extends React.Component {
   }
 }
 
-PXRateModalForm.propTypes = {
+PRSalaryModalForm.propTypes = {
+  buttonText: PropTypes.string,
+  formTitle: PropTypes.string,
   message: PropTypes.string,
   isLoading: PropTypes.bool,
   isSuccess: PropTypes.bool,
   show: PropTypes.bool,
-  rate: PropTypes.object,
+  salary: PropTypes.object,
+  employee: PropTypes.object,
   close: PropTypes.func,
   submit: PropTypes.func
 };
@@ -300,4 +326,4 @@ const mapStateToProps = state => {
   return { message, isLoading, isSuccess };
 };
 
-export default withRouter(connect(mapStateToProps)(PXRateModalForm));
+export default withRouter(connect(mapStateToProps)(PRSalaryModalForm));

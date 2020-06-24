@@ -2,15 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getLogsAction } from "../../modules/actions/log.actions";
+import { getTaxesAction } from "../../modules/actions/tax.actions";
+import { formatCurrency } from "../../modules/utils/helpers";
 import {
-  getLogs,
+  getTaxes,
   getNextPage,
   getCurrentPage,
   getSuccessStatus,
   getMessage,
   getLoadingStatus
-} from "../../modules/selectors/log.selectors";
+} from "../../modules/selectors/tax.selectors";
 import Pagination from "react-bootstrap/Pagination";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -18,33 +19,13 @@ import { Table } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import PRLayout from "../../components/Layout";
 
-class AdminLogsPage extends React.Component {
-  //   constructor(props) {
-  //     super(props);
-
-  //   }
-
+class AdminTaxesPage extends React.Component {
   componentDidMount() {
-    this.getLogsFromServer(this.props.currentPage);
+    this.getTaxesFromServer(this.props.currentPage);
   }
 
-  getLogsFromServer(page) {
-    this.props.getLogsAction(this.props.dispatch, page);
-  }
-
-  processActivityLogAction(action) {
-    let splitValue = action.split("*");
-    console.log({ splitValue });
-
-    let from = splitValue[1];
-
-    let fromJson = from ? JSON.stringify(JSON.parse(from), null, "<br/>") : "";
-
-    let to = splitValue[3];
-
-    let toJson = to ? JSON.stringify(JSON.parse(to), null, "<br/>") : "";
-
-    return `${splitValue[0]} <br/> <code>${fromJson} </code> <br/> ${splitValue[2]} <br/> <code>${toJson}</code>`;
+  getTaxesFromServer(page) {
+    this.props.getTaxesAction(this.props.dispatch, page, true);
   }
 
   render() {
@@ -52,7 +33,7 @@ class AdminLogsPage extends React.Component {
     if (this.props.currentPage > 1 && !this.props.isLoading) {
       pgItems.push(
         <Pagination.Prev
-          onClick={() => this.getLogsFromServer(this.props.currentPage)}
+          onClick={() => this.getTaxesFromServer(this.props.currentPage)}
         />
       );
     }
@@ -60,27 +41,49 @@ class AdminLogsPage extends React.Component {
     if (this.props.nextPage > 1 && !this.props.isLoading) {
       pgItems.push(
         <Pagination.Next
-          onClick={() => this.getLogsFromServer(this.props.nextPage)}
+          onClick={() => this.getTaxesFromServer(this.props.nextPage)}
         />
       );
     }
     const serialNumber = this.props.currentPage * 20 - 20 + 1;
 
-    const rows = this.props.logs.map((log, index) => {
+    const rows = this.props.taxes.map((tax, index) => {
       return (
-        <tr key={log.id.toString()}>
-          <td className="td-border-left">{serialNumber + index}</td>
-          <td>{log.admin.first_name + " " + log.admin.last_name}</td>
-          <td>{log.app_location}</td>
-          <td
-            dangerouslySetInnerHTML={{
-              __html: this.processActivityLogAction(log.action)
-            }}
-          />
-          <td className="td-border-right">
-            {new Date(log.created_at).toLocaleString()}
-          </td>
-        </tr>
+        <>
+          <tr key={tax.id}>
+            <td className="td-border-left">{serialNumber + index}</td>
+            <td>
+              {tax.payroll
+                ? tax.payroll.employee.first_name +
+                  " " +
+                  tax.payroll.employee.last_name
+                : ""}
+            </td>
+            {/* <td>{tax.payroll
+              ? formatCurrency(tax.payroll.gross_salary)
+              : ""
+            }
+            </td>
+            <td>{tax.payroll
+              ? formatCurrency(tax.payroll.net_salary)
+              : ""
+            }
+            </td> */}
+            <td>{formatCurrency(tax.pension)}</td>
+            <td>{formatCurrency(tax.paye)}</td>
+            <td>{formatCurrency(tax.nsitf)}</td>
+            <td>{formatCurrency(tax.nhf)}</td>
+            <td>{formatCurrency(tax.itf)}</td>
+            <td>
+              {formatCurrency(
+                tax.itf + tax.pension + tax.paye + tax.nsitf + tax.nhf
+              )}
+            </td>
+            <td className="td-border-right">
+              {new Date(tax.created_at).toLocaleString()}
+            </td>
+          </tr>
+        </>
       );
     });
 
@@ -88,8 +91,7 @@ class AdminLogsPage extends React.Component {
       <PRLayout>
         <div>
           <div>
-            <h5 className="page-title">Activity Logs</h5>
-
+            <h5 className="page-title"> Taxes</h5>
             <hr />
           </div>
           <div className="justify-content-center">
@@ -97,9 +99,15 @@ class AdminLogsPage extends React.Component {
               <thead>
                 <tr>
                   <th>S/N</th>
-                  <th>ADMIN</th>
-                  <th>APP LOCATION</th>
-                  <th>ACTION</th>
+                  <th>EMPLOYEE</th>
+                  {/* <th>GROSS SALARY</th>
+                  <th>NET SALARY</th> */}
+                  <th>PENSION</th>
+                  <th>PAYE</th>
+                  <th>NSITF</th>
+                  <th>NHF</th>
+                  <th>ITF</th>
+                  <th>TOTAL</th>
                   <th>DATE</th>
                 </tr>
               </thead>
@@ -121,26 +129,27 @@ class AdminLogsPage extends React.Component {
   }
 }
 
-AdminLogsPage.propTypes = {
-  logs: PropTypes.array,
+AdminTaxesPage.propTypes = {
+  taxes: PropTypes.array,
   currentPage: PropTypes.number,
   nextPage: PropTypes.number,
   isSuccess: PropTypes.bool,
   isLoading: PropTypes.bool,
   message: PropTypes.string,
-  getLogsAction: PropTypes.func,
+  getTaxesAction: PropTypes.func,
+  updateSalaryAction: PropTypes.func,
   dispatch: PropTypes.any
 };
 
 const mapStateToProps = state => {
-  const logs = getLogs(state);
+  const taxes = getTaxes(state);
   const nextPage = getNextPage(state);
   const currentPage = getCurrentPage(state);
   const isSuccess = getSuccessStatus(state);
   const message = getMessage(state);
   const isLoading = getLoadingStatus(state);
   return {
-    logs,
+    taxes,
     isLoading,
     message,
     isSuccess,
@@ -151,7 +160,7 @@ const mapStateToProps = state => {
 
 const mapDispatchActionToProps = dispatch => {
   return {
-    getLogsAction,
+    getTaxesAction,
     dispatch
   };
 };
@@ -159,4 +168,4 @@ const mapDispatchActionToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchActionToProps
-)(AdminLogsPage);
+)(AdminTaxesPage);

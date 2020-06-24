@@ -9,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import PXHeader from "./Header";
 import PXAdminSideBar from "./AdminSideBar";
 import styles from "./css/Layout.module.css";
-import { getSettingsAction } from "../modules/actions/setting.actions";
 
 class PRLayout extends React.Component {
   // constructor(props) {
@@ -18,7 +17,6 @@ class PRLayout extends React.Component {
 
   componentDidMount() {
     this.props.initAuthStore(this.props.dispatch);
-    this.props.getSettingsAction(this.props.dispatch);
   }
 
   render() {
@@ -54,8 +52,6 @@ class PRLayout extends React.Component {
 PRLayout.propTypes = {
   children: PropTypes.any,
   initAuthStore: PropTypes.func,
-  getAccounts: PropTypes.func,
-  getSettingsAction: PropTypes.func,
   isAdmin: PropTypes.bool,
   dispatch: PropTypes.any
 };
@@ -69,7 +65,6 @@ const mapStateToProps = state => {
 const mapDispatchActionToProps = dispatch => {
   return {
     initAuthStore,
-    getSettingsAction,
     dispatch
   };
 };
