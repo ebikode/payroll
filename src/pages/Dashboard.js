@@ -25,7 +25,7 @@ class DashboardPage extends React.Component {
 
     let items = [
       {
-        value: this.props.dashboardData.gross_salary_earned,
+        value: formatCurrency(this.props.dashboardData.gross_salary_earned),
         text: "Gross Salaries Earned",
         icon: "fas fa-address-card"
       },

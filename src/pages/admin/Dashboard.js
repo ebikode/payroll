@@ -36,12 +36,12 @@ class AdminDashboardPage extends React.Component {
         icon: "fas fa-users"
       },
       {
-        value: this.props.dashboardData.gross_salary_paid,
+        value: formatCurrency(this.props.dashboardData.gross_salary_paid),
         text: "Gross Salaries Paid",
         icon: "fas fa-address-card"
       },
       {
-        value: formatCurrency(Number(this.props.dashboardData.net_salary_paid)),
+        value: formatCurrency(this.props.dashboardData.net_salary_paid),
         text: "Net Salaries Paid",
         icon: "fas fa-address-card"
       },
