@@ -1,0 +1,3 @@
+export const UPDATE_TOKENS = "UPDATE_TOKENS";
+export const ADD_TOKEN = "ADD_TOKEN";
+export const UPDATE_TOKENS_STATUS = "UPDATE_TOKENS_STATUS";

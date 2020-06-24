@@ -1,0 +1,59 @@
+.body {
+    background-color: #FFFFFF;
+    min-width: calc(100vw/2);
+    width: calc(100vw/2);
+    margin: 20px 5px;
+    margin-top: 0px;
+    margin-top: 0px;
+    border-radius: 20px;
+    box-shadow: 0.25rem .25rem .8rem rgba(0,0,0,.1)!important;
+    align-content: center;
+    padding-bottom: 20px;
+
+}
+.cardHeader {
+    height: 70px;
+    background-color: #EFE60E;
+    margin-bottom: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding-top: 20px;
+}
+
+.cardHeader p {
+    color: #000000a5;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.whitePath {
+    height: 20px;
+    width: calc(50vw/2);
+    border-radius: 10px;
+    position: relative;
+    background-color: #FFFFFF;
+    left: 25%;
+}
+
+.row {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 0px 50px 0px 50px;
+}
+.fieldTitle {
+    font-size: 18px;
+}
+
+.fieldValue {
+    font-size: 18px;
+}
+
+.button {
+    height: 57px;
+    font-size: 24px !important;
+    background-color: #7EB95B !important;
+    border-color: #7EB95B !important;
+    border-radius: 50px !important;
+}

@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'Segoe UI Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Segoe UI Light'), url('Segoe_UI_Light.ttf');
+}
+
+@font-face {
+    font-family: 'Segoe UI Semi Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Segoe UI Semi Light'), url('Segoe_UI_Semi_Light.ttf');
+}
+
+
+@font-face {
+    font-family: 'Segoe UI Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Segoe UI Regular'), url('Segoe_UI.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Segoe UI Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Segoe UI Italic'), url('Segoe_UI_Italic.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Segoe UI Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Segoe UI Bold'), url('Segoe_UI_Bold.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Segoe UI Bold Italic';
+font-style: normal;
+font-weight: normal;
+src: local('Segoe UI Bold Italic'), url('Segoe_UI_Bold_Italic.woff') format('woff');
+}

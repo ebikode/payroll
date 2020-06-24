@@ -1,0 +1,274 @@
+@import url('fonts/style.css');
+
+:root {
+
+  /* Colors: */
+  --fg-color: #243447;
+  --md-color: #179D27;
+  --text-color: #F0F0F0;
+  --bg-color: #141D26;
+  --alt-color: #F97B00;
+  --yellow-color-91: #EEEE1291;
+  --yellow-color: #EEEE12;
+  --bg-color-91: #141D26cf;
+  --border-color: #707070;
+  }
+
+body {
+    font-family: 'Segoe UI Semi Light';
+    margin: 0 auto;
+    background-color: var(--bg-color);
+    overflow: hidden;
+    color:var(--md-color) !important;
+}
+
+input {
+    height: 50px !important;
+}
+
+a {
+    color: var(--md-color);
+}
+
+hr {
+  border-color: var(--md-color);
+  margin-top: 0;
+  margin-bottom: .2rem;
+}
+
+button {
+  color: var(--fg-color) !important;
+  background: var(--md-color) !important;
+  background-color: var(--md-color) !important;
+  border-color: var(--md-color) !important;
+  border-radius: 10px !important;
+}
+
+.table-button {
+  padding: 3px 10px !important;
+  margin-bottom: 3px !important;
+  font-size: 12px !important;
+  border-radius: 5px !important;
+}
+
+a:hover {
+color: #E34D34;
+}
+
+.error {
+  width: 100%;
+  color: red;
+}
+.success {
+  width: 100%;
+  color: green;
+}
+
+.body {
+  padding: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh
+}
+
+.bgContent {
+  background-image: url('/images/bg.png');
+  background-position: center;
+  background-size: 110%;
+}
+
+.content {
+  width: 100%;
+  height: 100vh;
+  padding: 20px 0px 30px;
+  background-color: var(--bg-color-91);
+}
+
+.form-content {
+    background-color: var(--fg-color);
+    border-radius: 20px !important;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pageTitle {
+  font-size: 1.2rem;
+  font-weight: Bold;
+  text-transform: capitalize;
+}
+
+.role {
+  font-weight: 300;
+}
+/* HEADER */
+.navbar {
+  background-color: var(--fg-color);
+}
+nav {
+  height: 65px !important;
+}
+.nav-link {
+  color: #EFE60E !important;
+}
+
+/* DASHBOARD */
+
+.welcomeBox {
+  padding: 10px 20px;
+  background: var(--fg-color) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 5px 15px #00000029;
+  border-radius: 20px;
+  opacity: 1;
+}
+
+.welcomeBox .welcomeTitle {
+  font-size: 18px;
+  text-align: left;
+  letter-spacing: 0px;
+}
+
+.welcomeBox .welcomeTitle .adminName {
+  font-family: 'Segoe UI Bold';
+}
+
+.welcomeBox .welcomeText {
+  text-align: right;
+  font-size: 14px;
+}
+
+
+/* FORM */
+
+.form-group {
+    position: relative !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .form-control-placeholder {
+    background-color: var(--fg-color);
+    position: absolute;
+    top: 10%;
+    left: 0;
+    font-size: 16px;
+    margin-left: 10px;
+    padding: 7px 0 0 10px;
+    transition: all 200ms;
+    opacity: 0.7;
+  }
+
+  .form-control {
+    font-family: 'Segoe UI Regular';
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 1.5;
+    color: var(--md-color);
+    background-color:  var(--fg-color) !important;
+    border: 1px solid var(--border-color) !important;
+  }
+
+  .form-control:focus {
+    border-color: var(--border-color)  !important;
+    color: var(--md-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(182, 255, 133, 0.267) !important;
+}
+
+  
+  
+  .form-control:focus + .form-control-placeholder,
+  .form-control:valid + .form-control-placeholder,
+  input[value]:not([value=""]) ~ label,
+  input:focus:not(:placeholder-shown) ~ label {
+    font-size: 90%;
+    padding: 0px 15px 0 5px;
+    margin: 0px 0 0 20px;
+    transform: translate3d(0, -80%, 0) !important;
+    opacity: 1;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .search-container {
+    width: 70%;
+    /* margin-left: 15%; */
+    justify-content: center;
+  }
+
+  .search-input {
+    font-size: 20px !important;
+    /* font-weight: bold !important; */
+    height: 50px !important;
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+    border-color: #EFE60E !important;
+    color: #818282 !important;
+  }
+
+  .search-input::placeholder{
+    color: #EFE60Ea5 !important;
+  }
+
+  .search-input-button {
+    height: 50px !important;
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    color: #FFFFFF !important;
+    background-color: #EFE60E !important;
+    border-color: #EFE60E !important;
+    padding: 10px 20px !important;
+  }
+
+  /* TABLE */
+  .table {
+    color: #D2D4BF !important;
+    border-collapse: separate;
+  }
+
+  .table-bordered thead th {
+    font-family: 'Montserrat', sans-serif;
+    border-bottom-width: 20px;
+    border: 0px;
+    font-size: 11px;
+    text-align: center;
+    color: #D2D4BF
+}
+
+.table-bordered td {
+  border: 1px solid #ebebeba1;
+}
+
+.no-border {
+  border: 0px solid #ebebeba1 !important;
+}
+
+.td-border-left {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.td-border-right {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.table-hover tbody tr:hover {
+  color: #D2D4BFa5 !important;
+  background-color: rgba(0,0,0,.075);
+}
+
+/* PAGINATION */
+.page-link {
+  color: #EFE60E !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .form-content {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}
