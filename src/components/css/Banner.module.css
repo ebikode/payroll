@@ -1,0 +1,24 @@
+.bannerBody {
+    background-color: #FFFFFF;
+    padding: 0px 50px 10px 50px;
+    margin: 20px;
+    margin-top: 0px;
+    margin-top: 0px;
+}
+.button {
+    font-size: 18px !important;
+    color: #000000 !important;
+    background-color: #EFE60E !important;
+    border-color: #EFE60E !important;
+    border-radius: 10px !important;
+}
+.img {
+    width: 100%;
+    height: 200px;
+    background-image: url("/images/balloon.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+  

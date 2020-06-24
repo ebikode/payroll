@@ -1,0 +1,71 @@
+.formBody {
+    background-color: var(--fg-color);
+    padding: 0px 10px 10px 10px;
+    /* margin: 20px; */
+    margin-top: 0px;
+    margin-top: 0px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 70%;
+}
+
+.regFormBody {
+    background-color: var(--fg-color);
+    padding: 20px 50px;
+    /* margin: 20px; */
+    margin-top: 0px;
+    margin-top: 0px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 50%;
+    border-radius: 20px;
+}
+
+
+.formBody .imgBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.formBody .imgBox img {
+    width: 200px;
+    height: 100px;
+}
+
+.formBody .buttonBox {
+    width: 100%;
+    text-align: center !important;
+    margin-bottom: 20px;
+}
+
+.formBody .buttonBox  .button {
+    font-size: 14px !important;
+    padding: 10px 90px;
+}
+
+.mission {
+    font-size: 1rem;
+    letter-spacing: .1rem;
+    color: var(--alt-color);
+}
+
+.buttonRegister {
+    font-size: 18px !important;
+    color: #000000 !important;
+    background-color: #FFFFFF !important;
+    border-color: #FFFFFF !important;
+}
+
+.errorMsg {
+    color: red;
+    text-transform: capitalize;
+}
+.title {
+    font-size: 1.5em;
+}
+
+  

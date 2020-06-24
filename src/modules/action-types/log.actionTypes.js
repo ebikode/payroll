@@ -1,0 +1,2 @@
+export const UPDATE_LOGS = "UPDATE_LOGS";
+export const UPDATE_LOGS_STATUS = "UPDATE_LOGS_STATUS";
