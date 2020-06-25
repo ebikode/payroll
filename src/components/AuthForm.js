@@ -63,9 +63,9 @@ class PRAuthForm extends React.Component {
             defaultErrorMessage={{ required: "Please fill the form" }}
           >
             <Form.Row>
-              <p className={styles.errorMsg}>
+              <div className={styles.errorMsg}>
                 <strong>{this.props.message}</strong>
-              </p>
+              </div>
             </Form.Row>
             <br />
 

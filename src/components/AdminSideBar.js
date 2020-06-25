@@ -2,13 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { reactLocalStorage } from "reactjs-localstorage";
 
+import { logout } from "../modules/actions/auth.actions";
 import {
   getAdminState,
   getAdminStatus,
   getEmployeeState
 } from "../modules/selectors/auth.selectors";
 import styles from "./css/SideBar.module.css";
+import { LOCAL_STORAGE_KEYS } from "../keys";
 
 const links = [
   {
@@ -95,6 +99,27 @@ class PXSideBar extends React.Component {
       </Link>
     ));
 
+    items.push(
+      <div key="logout" className="SidebarLogoutButton" onClick={this.logout}>
+        <div className={styles.card}>
+          <p>Logout</p>
+        </div>
+      </div>
+    );
+
+    employeeItems.push(
+      <div
+        to=""
+        key="logout"
+        className="SidebarLogoutButton"
+        onClick={this.logout}
+      >
+        <div className={styles.card}>
+          <p>Logout</p>
+        </div>
+      </div>
+    );
+
     return (
       <>
         {this.props.isAdmin ? (
@@ -109,6 +134,14 @@ class PXSideBar extends React.Component {
       </>
     );
   }
+
+  logout = () => {
+    const { token } = LOCAL_STORAGE_KEYS;
+    this.props.logout();
+    reactLocalStorage.clear();
+    Cookies.remove(token);
+    window.location.reload();
+  };
 }
 
 PXSideBar.propTypes = {
@@ -127,4 +160,4 @@ const mapStateToProps = state => {
   return { isAdmin, admin, employee };
 };
 
-export default connect(mapStateToProps)(PXSideBar);
+export default connect(mapStateToProps, { logout })(PXSideBar);
