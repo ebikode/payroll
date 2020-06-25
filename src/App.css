@@ -44,6 +44,21 @@ button {
   border-radius: 10px !important;
 }
 
+.btn-outline-warning:focus {
+  box-shadow: none !important;
+}
+
+.nav-item .dropdown {
+  max-width: 100px;
+  float: right !important;
+  margin-right: 10px;
+}
+
+.nav-item .dropdown-toggle {
+  background-color: transparent !important;
+  border: none;
+}
+
 .dropdownToggle {
   text-overflow: ellipsis;
   max-width: 170px;
@@ -55,6 +70,14 @@ button {
   position: absolute;
   right: 10%;
   top: 50%;
+}
+
+.dropdown-menu {
+  background-color: var(--fg-color);
+}
+
+.dropdown-item {
+  color: var(--alt-color);
 }
 
 .table-button {
@@ -123,6 +146,10 @@ color: #E34D34;
   color: var(--alt-color) !important;
 }
 
+.modal-header {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
 .pageTitle {
   font-size: 1.2rem;
   font-weight: Bold;
@@ -141,6 +168,11 @@ nav {
 }
 .nav-link {
   color: #EFE60E !important;
+}
+
+/* SIDEBAR */
+.SidebarLogoutButton {
+  display: none;
 }
 
 /* DASHBOARD */
@@ -312,10 +344,19 @@ nav {
 
 @media only screen and (max-width: 600px) {
   .form-content {
+    margin: 10px;
     padding-left: .5rem;
     padding-right: .5rem;
   }
   .body-inner {
     padding: 40px 20px 20px 50px !important;
+  }
+
+  .modal-dialog {
+    margin-right: 24px !important;
+  }
+
+  .SidebarLogoutButton {
+    display: block;
   }
 }

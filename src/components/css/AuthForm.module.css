@@ -56,13 +56,15 @@
 .buttonRegister {
     font-size: 18px !important;
     color: #000000 !important;
-    background-color: #FFFFFF !important;
-    border-color: #FFFFFF !important;
+    background-color: var(--fg-color) !important;
+    border-color: var(--fg-color)!important;
 }
 
 .errorMsg {
     color: red;
     text-transform: capitalize;
+    text-align: center;
+    width: 100%;
 }
 .title {
     font-size: 1.5em;

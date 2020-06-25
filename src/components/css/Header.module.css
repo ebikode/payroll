@@ -16,4 +16,20 @@
   color: #7EB95B;
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
+  width: 100% !important;
+}
+
+.navbarBrand {
+  position: absolute;
+}
+
+
+@media only screen and (max-width: 579px) {
+  .nav {
+    display: none !important;
+  }
+
+  .navbarBrand {
+    position: relative;
+  }
 }

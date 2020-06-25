@@ -35,7 +35,7 @@ class PXHeader extends React.Component {
             className="App-navbar shadow-sm"
             expand="lg"
           >
-            <Navbar.Brand href="/dashboard" className="">
+            <Navbar.Brand href="/dashboard" className={styles.navbarBrand}>
               <img
                 width="auto"
                 height="50"
