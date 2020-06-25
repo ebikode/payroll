@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Form } from "react-bootstrap";
-import { TextInput } from "react-bootstrap4-form-validation";
+import { TextInput, SelectGroup } from "react-bootstrap4-form-validation";
 import Col from "react-bootstrap/Col";
 import styles from "./css/AuthForm.module.css";
 
@@ -19,6 +19,16 @@ class PXSettingForm extends React.Component {
   }
 
   render() {
+    let boolStatus = ["true", "false"];
+
+    let boolStatusOptions = boolStatus.map(type => {
+      return (
+        <option value={type} key={type}>
+          {type.toUpperCase()}
+        </option>
+      );
+    });
+
     let formFields = (
       <>
         <Form.Row>
@@ -45,27 +55,46 @@ class PXSettingForm extends React.Component {
           </Form.Group>
         </Form.Row>
 
-        <Form.Row>
-          <Form.Group as={Col} controlId="value" className="form-label-group">
-            <TextInput
-              id={`value${this.props.formName}`}
-              className="form-control"
-              name={`value${this.props.formName}`}
-              type="text"
-              defaultValue={this.props.setting.value}
-              onBlur={e => this.props.handleChange(e, this.props.formName)}
-              onChange={e => {
-                this.props.handleChange(e, this.props.formName);
-                e.target.setAttribute("value", e.target.value);
-              }}
-              errorMessage={{
-                validator: `Please enter a Valid Value.`
-              }}
-              required
-            />
-            <Form.Label className="form-control-placeholder">Value</Form.Label>
-          </Form.Group>
-        </Form.Row>
+        {this.props.setting.s_key == "is_auto_approve" ? (
+          <Form.Row>
+            <Form.Group as={Col} controlId="value" className="form-label-group">
+              <SelectGroup
+                name={`value${this.props.formName}`}
+                id={`value${this.props.formName}`}
+                defaultValue={this.props.setting.value}
+                required
+                errorMessage="Please select a Value"
+                onChange={e => this.props.handleChange(e, this.props.formName)}
+              >
+                {boolStatusOptions}
+              </SelectGroup>
+            </Form.Group>
+          </Form.Row>
+        ) : (
+          <Form.Row>
+            <Form.Group as={Col} controlId="value" className="form-label-group">
+              <TextInput
+                id={`value${this.props.formName}`}
+                className="form-control"
+                name={`value${this.props.formName}`}
+                type="text"
+                defaultValue={this.props.setting.value}
+                onBlur={e => this.props.handleChange(e, this.props.formName)}
+                onChange={e => {
+                  this.props.handleChange(e, this.props.formName);
+                  e.target.setAttribute("value", e.target.value);
+                }}
+                errorMessage={{
+                  validator: `Please enter a Valid Value.`
+                }}
+                required
+              />
+              <Form.Label className="form-control-placeholder">
+                Value
+              </Form.Label>
+            </Form.Group>
+          </Form.Row>
+        )}
 
         <Form.Row>
           <Form.Group as={Col} controlId="comment" className="form-label-group">
