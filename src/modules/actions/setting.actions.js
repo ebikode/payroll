@@ -62,7 +62,7 @@ export const updateSettingAction = async (dispatch, serverPayload) => {
     }
   });
 
-  let url = `admin/owner/app_settings/${serverPayload.setting_id}`;
+  let url = `admin/super_admin/app_settings/${serverPayload.setting_id}`;
 
   await putRequest(url, serverPayload, true)
     .then(res => {
