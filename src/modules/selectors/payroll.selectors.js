@@ -65,6 +65,7 @@ export const getPayrollFilters = store =>
 // Get Message
 export const getMessage = store =>
   getPayrollStore(store) ? getPayrollStore(store).message : "";
+
 // Get Loading status
 export const getLoadingStatus = store =>
   getPayrollStore(store) ? getPayrollStore(store).isLoading : false;
@@ -72,6 +73,10 @@ export const getLoadingStatus = store =>
 // Get Success status
 export const getSuccessStatus = store =>
   getPayrollStore(store) ? getPayrollStore(store).isSuccess : false;
+
+// Get Payroll status
+export const getPayrollStatus = store =>
+  getPayrollStore(store) ? getPayrollStore(store).isPayrollPending : false;
 
 // Get Next Page
 export const getNextPage = store =>

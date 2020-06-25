@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 
 import {
   getPayrolls as getPayrollActions,
-  getPayrollFilters as getPayrollFiltersAction
+  getPayrollFilters as getPayrollFiltersAction,
+  approvePayrollAction
 } from "../../modules/actions/payroll.actions";
 import { formatCurrency, months } from "../../modules/utils/helpers";
 import {
@@ -16,6 +17,7 @@ import {
   getSelectedYear,
   getSuccessStatus,
   getMessage,
+  getPayrollStatus,
   getLoadingStatus
 } from "../../modules/selectors/payroll.selectors";
 import Pagination from "react-bootstrap/Pagination";
@@ -23,6 +25,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Table } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import PRLayout from "../../components/Layout";
 
@@ -115,6 +118,25 @@ class AdminPayrollsPage extends React.Component {
                 ")"}
             </h5>
             <div className="float-right">
+              {this.props.isPayrollPending ? (
+                <Button
+                  variant="primary"
+                  className="approveButton"
+                  onClick={() =>
+                    this.props.approvePayrollAction(
+                      this.props.dispatch,
+                      this.props.selectedMonth,
+                      this.props.selectedYear
+                    )
+                  }
+                >
+                  Approve
+                </Button>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className="float-right">
               <Dropdown>
                 <Dropdown.Toggle
                   variant="outline-warning"
@@ -176,9 +198,11 @@ AdminPayrollsPage.propTypes = {
   nextPage: PropTypes.number,
   isSuccess: PropTypes.bool,
   isLoading: PropTypes.bool,
+  isPayrollPending: PropTypes.bool,
   message: PropTypes.string,
   getPayrollActions: PropTypes.func,
   getPayrollFiltersAction: PropTypes.func,
+  approvePayrollAction: PropTypes.func,
   dispatch: PropTypes.any
 };
 
@@ -190,6 +214,7 @@ const mapStateToProps = state => {
   const selectedMonth = getSelectedMonth(state);
   const selectedYear = getSelectedYear(state);
   const isSuccess = getSuccessStatus(state);
+  const isPayrollPending = getPayrollStatus(state);
   const message = getMessage(state);
   const isLoading = getLoadingStatus(state);
   return {
@@ -198,6 +223,7 @@ const mapStateToProps = state => {
     isLoading,
     message,
     isSuccess,
+    isPayrollPending,
     selectedMonth,
     selectedYear,
     currentPage,
@@ -209,6 +235,7 @@ const mapDispatchActionToProps = dispatch => {
   return {
     getPayrollActions,
     getPayrollFiltersAction,
+    approvePayrollAction,
     dispatch
   };
 };
