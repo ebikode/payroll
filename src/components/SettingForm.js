@@ -55,7 +55,7 @@ class PXSettingForm extends React.Component {
           </Form.Group>
         </Form.Row>
 
-        {this.props.setting.s_key == "is_auto_approve" ? (
+        {this.props.setting.s_key === "is_auto_approve" ? (
           <Form.Row>
             <Form.Group as={Col} controlId="value" className="form-label-group">
               <SelectGroup
