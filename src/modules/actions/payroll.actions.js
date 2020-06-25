@@ -4,8 +4,12 @@ import {
   UPDATE_REPORTS,
   UPDATE_FILTERS
 } from "../action-types/payroll.actionTypes";
-import { getRequest } from "../utils/service";
-import { processData, processByMonthData } from "../utils/helpers";
+import { getRequest, putRequest } from "../utils/service";
+import {
+  processData,
+  processByMonthData,
+  processErrorMessage
+} from "../utils/helpers";
 
 // Process Payroll Update action
 export const getPayrolls = (
@@ -30,16 +34,26 @@ export const getPayrolls = (
 
   getRequest(url, true)
     .then(res => {
+      var isPayrollPending = false;
       let payrolls = processData(res.data.payrolls);
 
       let nextPage = res.data.next_page;
       let currentPage = res.data.current_page;
+
+      for (let index = 0; index < res.data.payrolls.length; index++) {
+        const element = res.data.payrolls[index];
+        if (element.status === "pending") {
+          isPayrollPending = true;
+          break;
+        }
+      }
 
       dispatch({
         type: UPDATE_PAYROLLS,
         payload: {
           isSuccess: true,
           isLoading: false,
+          isPayrollPending: isPayrollPending,
           message: "",
           selectedMonth: month,
           selectedYear: year,
@@ -142,5 +156,43 @@ export const getPayrollFilters = dispatch => {
         }
       });
       console.log("An Error Occurred while fetching Payrolls Reports", { err });
+    });
+};
+
+// Update Employee
+export const approvePayrollAction = async (dispatch, month, year) => {
+  dispatch({
+    type: UPDATE_PAYROLLS_STATUS,
+    payload: {
+      isSuccess: false,
+      isLoading: true,
+      message: "Running Approval..."
+    }
+  });
+
+  let serverPayload = {
+    month: Number(month),
+    year: Number(year),
+    status: "approved"
+  };
+
+  let url = `admin/manager/payrolls/update/status`;
+
+  await putRequest(url, serverPayload, true)
+    .then(res => {
+      getPayrolls(dispatch, 1, month, year, true);
+    })
+    .catch(err => {
+      let message = processErrorMessage(err);
+
+      dispatch({
+        type: UPDATE_PAYROLLS_STATUS,
+        payload: {
+          isSuccess: false,
+          isLoading: false,
+          message: message
+        }
+      });
+      console.log("An Error Occurred while Approving Payrolls", { err });
     });
 };

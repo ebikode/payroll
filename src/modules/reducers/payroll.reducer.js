@@ -8,6 +8,7 @@ import {
 const initialState = {
   isSuccess: false,
   isLoading: false,
+  isPayrollPending: false,
   message: "",
   nextPage: 0,
   currentPage: 1,
@@ -44,6 +45,7 @@ export default function(state = initialState, action) {
         isSuccess,
         isLoading,
         message,
+        isPayrollPending,
         selectedMonth,
         selectedYear,
         data,
@@ -55,6 +57,7 @@ export default function(state = initialState, action) {
         isSuccess: isSuccess,
         isLoading: isLoading,
         message: message,
+        isPayrollPending: isPayrollPending,
         selectedMonth: selectedMonth,
         selectedYear: selectedYear,
         nextPage: nextPage,
